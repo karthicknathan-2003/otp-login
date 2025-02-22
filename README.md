@@ -1,0 +1,1 @@
+This is a One of the Machine Coding problem "Advanced OTP Login system". Popular platforms like Hotstar and etc.. utilize advanced OTP login systems to enhance user experience. This system allows users to log in without manually entering credentials, providing a seamless interaction by eliminating the need to click on text fields.
