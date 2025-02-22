@@ -2,37 +2,27 @@ import React, { useRef, useState } from 'react'
 import '/src/style.css'
 
 const OtpLogin = () => {
-    const length = 4
+    const length = 6
     const [otpFields, setOtpFields] = useState(Array(length).fill(''))
     const otpRefsArray = useRef([]);
 
     const handleOnChange = (event, index) => {
         const otpFieldsCopy = [...otpFields]
         if (!isNaN(event.target.value)) {
-            switch (event.target.value) {
-                // If the no value has entered.
-                case '0':
-                    otpFieldsCopy[index] = ""
-                    setOtpFields(otpFieldsCopy)
-                    otpRefsArray.current[index - 1].focus
-                    break;
-                default:
-                    const targetValue = event.target.value.slice(-1)
-                    if (targetValue === " ") {
-                        alert("Invalid Input.")
-                        return
-                    }
-                    otpFieldsCopy[index] = targetValue
-                    setOtpFields(otpFieldsCopy)
-                    if (targetValue.length === 1 && index < length - 1) {
-                        otpRefsArray.current[index + 1].focus();
-                    }
+            const targetValue = event.target.value.slice(-1)
+            if (targetValue === " ") {
+                alert("Invalid Input.")
+                return
+            }
+            otpFieldsCopy[index] = targetValue
+            setOtpFields(otpFieldsCopy)
+            if (targetValue.length === 1 && index < length - 1) {
+                otpRefsArray.current[index + 1].focus();
+            }
 
-                    // After last field need to remove the focus from the input field.
-                    if (index === length - 1) {
-                        otpRefsArray.current[index].blur();
-                    }
-                    break;
+            // After the last field need to remove the focus from the input field.
+            if (index === length - 1) {
+                otpRefsArray.current[index].blur();
             }
         } else {
             alert("Invalid Input.")
@@ -40,15 +30,21 @@ const OtpLogin = () => {
     }
 
     const handleKeyDown = (event, index) => {
+        // Need to remove the current value and move the cursor to the previous field, 
+        // when clicking on "Backspace".
         switch (event.key) {
             case 'Backspace':
-                if (index > 0) {
+                if (index >= 0) {
                     const otpFieldsCopy = [...otpFields]
-                    otpFieldsCopy[index] = ""
+                    // Clears all fields from index onwards.
+                    for (var i = index; i < otpFields.length; i++) {
+                        otpFieldsCopy[i] = ""   
+                    }
                     setOtpFields(otpFieldsCopy)
-                    otpRefsArray.current[index - 1].focus();
+                    otpRefsArray.current[index].focus(); 
                 }
                 break;
+
             case 'Delete':
                 event.preventDefault()
                 break;
